@@ -1,4 +1,6 @@
 const userService = require('./user.service');
-const deckeService = require('./deck.service');
+const deckService = require('./deck.service');
+const cardService = require('./card.service');
+const rarityService = require('./rarity.service');
 
-module.exports = { userService, deckeService };
+module.exports = { userService, deckService, rarityService, cardService };

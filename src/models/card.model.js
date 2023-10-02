@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       image: DataTypes.STRING,
-      rarity: DataTypes.STRING,
+      rarityId: {
+        type: DataTypes.INTEGER,
+        foreignKey: true
+      },
       isTrunfo: DataTypes.BOOLEAN,
       attributeOne: DataTypes.INTEGER,
       attributeTwo: DataTypes.INTEGER,
@@ -27,8 +30,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
   
-  Card.associate = ({ Deck }) => {
+  Card.associate = ({ Deck, Rarity }) => {
     Card.belongsTo(Deck, { foreignKey: 'deckId', as: 'deck' });
+    Card.belongsTo(Rarity, { foreignKey: 'rarityId', as: 'rarity' });
   };
 
   return Card;

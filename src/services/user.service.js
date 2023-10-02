@@ -12,7 +12,7 @@ const login = async (password, email = '') => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user || !isRightPassword(password, user.password)) {
-      return { status: 404, data: { message: 'Username, email or password incorrect' } };
+      return { status: 401, data: { message: 'email or password incorrect' } };
     }
     const token = createToken({ id: user.id, username: user.username, isAdm: user.roleId === 1 });
     return { status: 200, data: { token } };
@@ -22,11 +22,11 @@ const login = async (password, email = '') => {
 };
 
 const createUser = async (user, transaction) => {
-  const { username, email, image, id, role } = await User.create(
+  const { username, email, image, id } = await User.create(
     { ...user, roleId: 2 },
     { transaction },
   );
-  return { id, email, image, username, role };
+  return { id, email, image, username };
 };
 
 const create = async ({ username, email, password, image }) => {
@@ -40,7 +40,7 @@ const create = async ({ username, email, password, image }) => {
     });
     return result;
   } catch (error) {
-    if (error.original.code === 'ER_DUP_ENTRY') {
+    if (error.original && error.original.code === 'ER_DUP_ENTRY') {
       return { status: 409, data: { message: 'This email is already registered' } };
     }
     return INTERNAL_SERVER_ERROR;
@@ -52,7 +52,7 @@ const getUserById = async (id) => {
     const user = await User.findOne({ 
       where: { id },
       include: [
-        { model: Deck, as: 'decks', attributes: { exclude: ['userId'] } },
+        { model: Deck, as: 'decks', attributes: ['name', 'created', 'updated'] },
         { model: Role, as: 'role', attributes: { exclude: ['id'] } },
       ],
       attributes: { exclude: ['password', 'roleId'] },
@@ -64,16 +64,28 @@ const getUserById = async (id) => {
   }
 };
 
+const getLoggedUser = async (loggedUser) => {
+  try {
+    const user = await User.findByPk(
+      loggedUser.id,
+      {
+        include: { model: Deck, as: 'decks', attributes: ['name', 'created', 'updated', 'id'] },
+        attributes: { exclude: ['password', 'roleId', 'id'] },
+      },
+    );
+    return { status: 200, data: user };
+  } catch (error) {
+    return INTERNAL_SERVER_ERROR;
+  }
+};
+
 const getAll = async (username = '') => {
+  // Adicionar paginação na rota de obter todos os usuários
   try {
     const users = await User.findAll({
       where: {
         username: { [Sequelize.Op.substring]: username },
       },
-      include: [
-        { model: Deck, as: 'decks', attributes: { exclude: ['userId'] } },
-        { model: Role, as: 'role', attributes: { exclude: ['id'] } },
-      ],
       attributes: { exclude: ['password', 'roleId'] },
     });
     return { status: 200, data: users };
@@ -95,4 +107,34 @@ const changePassword = async (previousPassword, password, loggedUser) => {
   }
 };
 
-module.exports = { login, create, getUserById, getAll, changePassword };
+const updateUser = async ({ username, image, email }, loggedUser) => {
+  try {
+    await User.update({ username, image, email }, { where: { id: loggedUser.id } });
+    const updatedUser = await User
+      .findByPk(loggedUser.id, { attributes: { exclude: ['password', 'role_id'] } });
+    return { status: 200, data: updatedUser };
+  } catch (error) {
+    return INTERNAL_SERVER_ERROR;
+  }
+};
+
+const deleteUser = async (id, user) => {
+  try {
+    if (user.id !== Number(id)) return { status: 401, data: { message: 'Unauthorized user' } };
+    await User.destroy({ where: { id } });
+    return { status: 204 };
+  } catch (error) {
+    return INTERNAL_SERVER_ERROR;
+  }
+};
+
+module.exports = {
+  login,
+  getLoggedUser,
+  create,
+  getUserById,
+  getAll,
+  changePassword,
+  updateUser,
+  deleteUser,
+};

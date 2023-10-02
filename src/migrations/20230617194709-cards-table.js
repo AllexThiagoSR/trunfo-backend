@@ -18,12 +18,19 @@ module.exports = {
           allowNull: false,
         },
         image: {
-          allowNull: false,
+          allowNull: true,
           type: Sequelize.STRING,
         },
-        rarity: {
+        rarityId: {
           allowNull: false,
-          type: Sequelize.STRING,
+          type: Sequelize.INTEGER,
+          field: 'rarity_id',
+          references: {
+            key: 'id',
+            model: 'rarities'
+          },
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
         },
         isTrunfo: {
           allowNull: false,
@@ -53,6 +60,8 @@ module.exports = {
             model: 'decks',
             key: 'id'
           },
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
         },
       },
     );

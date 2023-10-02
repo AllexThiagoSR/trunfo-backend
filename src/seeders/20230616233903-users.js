@@ -11,10 +11,16 @@ module.exports = {
       [
         {
           username: 'Allek',
-          email: 'allek123@gmail.com',
+          email: 'allexthiagoDEV@gmail.com',
           password: encryptPassword(ADM_PASSWORD),
           role_id: 1
-        }
+        },
+        {
+          username: 'Jão',
+          email: 'jaodev@gmail.com',
+          password: encryptPassword('1234567'),
+          role_id: 2
+        },
       ],
       {},
     );

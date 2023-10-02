@@ -27,4 +27,28 @@ const changePassword = async (req, res) => {
   return res.status(status).json(data);
 };
 
-module.exports = { login, create, getUserById, getAll, changePassword };
+const updateUser = async (req, res) => {
+  const { status, data } = await userService.updateUser(req.body, req.user);
+  return res.status(status).json(data);
+};
+
+const deleteUser = async (req, res) => {
+  const { status, data } = await userService.deleteUser(req.params.id, req.user);
+  return res.status(status).json(data);
+};
+
+const getLoggedUser = async (req, res) => {
+  const { status, data } = await userService.getLoggedUser(req.user);
+  return res.status(status).json(data);
+};
+
+module.exports = { 
+  login, 
+  create,
+  deleteUser,
+  updateUser,
+  getUserById,
+  getAll,
+  changePassword,
+  getLoggedUser,
+};
