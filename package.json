@@ -1,31 +1,41 @@
 {
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "cors": "2.8.5",
-    "express": "4.18.2",
-    "express-async-errors": "3.1.1",
-    "helmet": "6.0.1",
-    "joi": "17.6.0",
-    "jsonwebtoken": "9.0.0",
-    "morgan": "1.10.0",
-    "mysql2": "2.1.0",
-    "sequelize": "6.3.4"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
   },
   "devDependencies": {
-    "eslint-config-trybe-backend": "2.1.0",
-    "nodemon": "2.0.22",
-    "sequelize-cli": "6.2.0"
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/node": "^22.13.0",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
+    "eslint": "^8.57.1",
+    "eslint-config-trybe-backend": "^2.1.0",
+    "sequelize-cli": "^6.6.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
   },
   "name": "backend",
   "description": "Backend da aplicação de criação de decks de super trunfo",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predev": "npm run restore",
     "prestart": "npm run restore",
+    "predev": "npm run restore",
     "start": "node ./src/server.js",
-    "dev": "nodemon ./src/server.js",
+    "dev": "tsnd --watch \"./src/**\" --transpile-only ./src/server.ts",
     "restore": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all"
   },
   "repository": {

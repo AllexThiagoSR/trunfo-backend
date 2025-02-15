@@ -1,6 +1,6 @@
 'use strict';
 
-const { encryptPassword } = require("../utils/bcryptUtils");
+const { hashSync } = require("bcryptjs");
 
 const { ADM_PASSWORD } = process.env;
 
@@ -12,13 +12,13 @@ module.exports = {
         {
           username: 'Allek',
           email: 'allexthiagoDEV@gmail.com',
-          password: encryptPassword(ADM_PASSWORD),
+          password: hashSync(ADM_PASSWORD),
           role_id: 1
         },
         {
           username: 'Jão',
           email: 'jaodev@gmail.com',
-          password: encryptPassword('1234567'),
+          password: hashSync('1234567'),
           role_id: 2
         },
       ],

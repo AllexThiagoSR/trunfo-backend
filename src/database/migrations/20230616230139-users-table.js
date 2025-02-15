@@ -5,10 +5,10 @@ module.exports = {
       'users',
       { 
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           primaryKey: true,
-          autoIncrement: true,
-          allowNull: false,
+          defaultValue: Sequelize.literal('gen_random_uuid()'),
+          allowNull: false
         },
         username: {
           type: Sequelize.STRING,

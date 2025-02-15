@@ -1,4 +1,4 @@
-FROM node:16.14
+FROM node:18.20.5
 WORKDIR /backend
 COPY package*.json ./
 RUN npm install

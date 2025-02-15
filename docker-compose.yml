@@ -1,12 +1,11 @@
-version: '3'
 services:
   backend:
     container_name: api
     command: dev
     build: .
-    volumes:
-      - .:/backend
     working_dir: /backend
+    volumes:
+      - ./src:/backend/src
     depends_on:
       db:
         condition: service_healthy
@@ -17,16 +16,17 @@ services:
     tty: true
     stdin_open: true
     restart: always
+
   db:
-    image: mysql:8.0.23
-    container_name: database
+    image: postgres
+    shm_size: 128mb
     platform: linux/x86_64
     restart: always
     ports:
-      - 3306:3306
+      - 5432:5432
     env_file:
       - .env.db
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
       timeout: 10s
       retries: 5

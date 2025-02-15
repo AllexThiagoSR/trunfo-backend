@@ -1,8 +1,100 @@
 {
+  "ignorePatterns": [
+      "node_modules/",
+      "tests/",
+      "build/",
+      "src/database/migrations",
+      "src/database/seeders",
+      "src/database/config",
+      "src/database/models/index.ts"
+  ],
+  "env": {
+      "browser": true,
+      "es2021": true
+  },
+  "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+  ],
+  "overrides": [
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+  },
+  "plugins": [
+      "@typescript-eslint"
+  ],
   "root": true,
-  "extends": ["trybe-backend"],
-  "ignorePatterns": ["**/migrations/", "**/seeders/", "**/models/"],
   "rules": {
-    "sonarjs/no-duplicate-string": ["error", 5]
+      "no-underscore-dangle": "off",
+      "no-console": "off",
+      "camelcase": "warn",
+      "arrow-parens": [
+          2,
+          "always"
+      ],
+      "quotes": [
+          2,
+          "single"
+      ],
+      "implicit-arrow-linebreak": "off",
+      "consistent-return": "off",
+      "@typescript-eslint/naming-convention": [
+          "error", { 
+              "selector": "property",
+              "format": ["strictCamelCase"],
+              "filter": {
+              "regex": "^_",
+              "match": false
+          } }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+              "argsIgnorePattern": "^_",
+              "ignoreRestSiblings": true
+          }
+      ],
+      "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+      "no-unused-vars": [
+          "error",
+          {
+              "argsIgnorePattern": "^_",
+              "ignoreRestSiblings": true
+          }
+      ],
+      "object-curly-newline": "off",
+      "max-params": [
+          "error",
+      4
+      ],
+      "max-lines": [
+          "error",
+          250
+      ],
+      "max-lines-per-function": [
+          "error",
+          {
+              "max": 20,
+              "skipBlankLines": true,
+              "skipComments": true
+          }
+      ],
+      "max-len": [
+          "error",
+          100,
+          {
+              "ignoreComments": true
+          }
+      ],
+      "complexity": [
+          "error",
+          12
+      ],
+      "import/no-extraneous-dependencies": [
+          "off"
+      ]
   }
 }

@@ -4,10 +4,10 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('cards',{
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           primaryKey: true,
-          autoIncrement: true,
-          allowNull: false,
+          defaultValue: Sequelize.literal('gen_random_uuid()'),
+          allowNull: false
         },
         name: {
           type: Sequelize.STRING,
@@ -53,7 +53,7 @@ module.exports = {
           field: 'attribute_three'
         },
         deckId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.UUID,
           allowNull: false,
           field: 'deck_id',
           references: {
