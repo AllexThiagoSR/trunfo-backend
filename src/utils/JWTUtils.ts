@@ -3,7 +3,7 @@ import APIError from './ApiError';
 
 export default class JWTUtils {
   private config: SignOptions;
-  private secret: string = process.env.SECRET_JWT!
+  private secret: string = process.env.JWT_SECRET!
   private verifyConfig: VerifyOptions;
 
   constructor(

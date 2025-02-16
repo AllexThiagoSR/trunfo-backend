@@ -4,10 +4,6 @@ import helmet from 'helmet';
 import APIError from './utils/ApiError';
 import indexRouter from './router';
 import sequelizeConnection from './database/config/database';
-import Card from './database/models/Card.model';
-import Deck from './database/models/Deck.model';
-import User from './database/models/User.model';
-import Rarity from './database/models/Rarity.model';
 
 export default class App {
   public server: express.Express;
