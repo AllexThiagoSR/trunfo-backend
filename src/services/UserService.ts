@@ -4,9 +4,11 @@ import IUserRepository from "../types/IUserRepository";
 import JWTUtils from "../utils/JWTUtils";
 import APIError from "../utils/ApiError";
 import BcryptUtils from "../utils/Bcrypt";
+import { SequelizeScopeError } from "sequelize/types";
 
 export default class UserService {
   private repository: IUserRepository;
+  private jwtCreator = new JWTUtils()
 
   constructor(repository: IUserRepository = new UserRepository()) { this.repository = repository; }
 
@@ -16,8 +18,20 @@ export default class UserService {
     if (user === null) throw new APIError('Incorrect email or password', 400);
     if (!BcryptUtils.compare(password, user.password)) throw new APIError('Incorrect email or password', 400);
 
-    const jwtCreator = new JWTUtils();
-    const token = jwtCreator.generateToken({ id: user.id, email: user.email, username: user.username });
+    const token = this.jwtCreator.generateToken({ id: user.id, email: user.email, username: user.username });
     return new ServiceResponse(200, { token });
+  }
+
+  public async create({ email, password, username, image }: { email: string, password: string, username: string, image: string | null }): Promise<ServiceResponse<{ token: string }>> {
+    try {
+      const hashedPassword = BcryptUtils.hash(password);
+      const user = await this.repository.create(email, hashedPassword, username, image);
+      const token = this.jwtCreator.generateToken({ email, username, id: user.id });
+      
+      return new ServiceResponse(201, { token });
+    } catch (error) {
+      if ((error as SequelizeScopeError).name === 'SequelizeUniqueConstraintError') throw new APIError('Email already exists, try to log in', 409);
+      throw new APIError('Internal server error', 500)
+    }
   }
 }

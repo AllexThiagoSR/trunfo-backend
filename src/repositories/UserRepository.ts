@@ -13,4 +13,9 @@ export default class UserRepository implements IUserRepository {
     const user = await this.model.findOne({ where: { email } });
     return user;
   }
+
+  public async create(email: string, password: string, username: string, image: string | null): Promise<User> {
+    const user = await this.model.create({ email, password, username, image });
+    return user;
+  }
 }

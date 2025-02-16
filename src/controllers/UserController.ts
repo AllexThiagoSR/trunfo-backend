@@ -12,4 +12,10 @@ export default class UserController {
     res.status(response.statusCode).json(response.body);
     return;
   }
+
+  public async create(req: Request, res: Response) {
+    const response = await this.service.create(req.body);
+    res.status(response.statusCode).json(response.body);
+    return;
+  }
 }
