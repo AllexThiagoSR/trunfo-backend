@@ -5,6 +5,7 @@ import JWTUtils from "../utils/JWTUtils";
 import APIError from "../utils/ApiError";
 import BcryptUtils from "../utils/Bcrypt";
 import { SequelizeScopeError } from "sequelize/types";
+import User from "../database/models/User.model";
 
 export default class UserService {
   private repository: IUserRepository;
@@ -33,5 +34,14 @@ export default class UserService {
       if ((error as SequelizeScopeError).name === 'SequelizeUniqueConstraintError') throw new APIError('Email already exists, try to log in', 409);
       throw new APIError('Internal server error', 500)
     }
+  }
+
+  public async update(id: string, username?: string, image?: string): Promise<ServiceResponse<User>> {
+    const updatedUser = await this.repository.getById(id);
+    if (!updatedUser) throw new APIError('User not found', 404);
+    await this.repository.updateUser(id, username, image);
+    updatedUser.username = username || updatedUser.username;
+    updatedUser.image = image || updatedUser.image;
+    return new ServiceResponse(200, updatedUser);
   }
 }

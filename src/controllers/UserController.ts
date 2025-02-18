@@ -18,4 +18,10 @@ export default class UserController {
     res.status(response.statusCode).json(response.body);
     return;
   }
+
+  public async update(req: Request, res: Response) {
+    const response = await this.service.update(res.locals.user.id, req.body.username, req.body.image);
+    res.status(response.statusCode).json(response.body);
+    return;
+  }
 }
