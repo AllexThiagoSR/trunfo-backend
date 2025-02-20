@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import APIError from './utils/ApiError';
 import indexRouter from './router';
 import sequelizeConnection from './database/config/database';
-import UserService from './services/UserService';
 
 export default class App {
   public server: express.Express;
