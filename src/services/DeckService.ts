@@ -3,6 +3,7 @@ import DeckRepository from "../repositories/DeckRepository";
 import IDeckRepository from "../types/IDeckRepository";
 import Deck from "../database/models/Deck.model";
 import APIError from "../utils/ApiError";
+import { DeckCreation } from "../types/DeckCreation";
 
 export default class DeckService {
   private repository: IDeckRepository;
@@ -18,5 +19,10 @@ export default class DeckService {
     const deck = await this.repository.getById(id);
     if (!deck) throw new APIError('Deck not found', 404);
     return new ServiceResponse(200, deck);
+  }
+
+  public async create(data: DeckCreation): Promise<ServiceResponse<Deck>> {
+    const deck = await this.repository.create(data.name, data.attributeOne, data.attributeTwo, data.attributeThree, data.userId);
+    return new ServiceResponse(201, deck);
   }
 }

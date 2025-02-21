@@ -41,6 +41,7 @@ export default class DeckRepository implements IDeckRepository {
   }
 
   public async create(name: string, attributeOne: string, attributeTwo: string, attributeThree: string, userId: string): Promise<Deck> {
-    throw new APIError('Not implemented.', 500);
+    const deck = await this.model.create({ name, attributeOne, attributeThree, attributeTwo, userId });
+    return deck;
   }
 }

@@ -17,4 +17,10 @@ export default class DeckController {
     res.status(response.statusCode).json(response.body);
     return;
   }
+
+  public async create(req: Request, res: Response) {
+    const response = await this.service.create({ ...req.body, userId: res.locals.user.id});
+    res.status(response.statusCode).json(response.body);
+    return;
+  }
 }
