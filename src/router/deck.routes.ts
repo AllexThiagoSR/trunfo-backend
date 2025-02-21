@@ -6,5 +6,6 @@ const deckRouter = Router();
 const controller = new DeckController()
 
 deckRouter.get('/', adapter((req, res) => controller.getAll(req, res)));
+deckRouter.get('/:id', adapter((req, res) => controller.getById(req, res)));
 
 export default deckRouter;

@@ -2,6 +2,7 @@ import APIError from "../utils/ApiError";
 import Deck from "../database/models/Deck.model";
 import IDeckRepository from "../types/IDeckRepository";
 import User from "../database/models/User.model";
+import Card from "../database/models/Card.model";
 
 export default class DeckRepository implements IDeckRepository {
   private model = Deck;
@@ -19,7 +20,23 @@ export default class DeckRepository implements IDeckRepository {
   }
 
   public async getById(id: string): Promise<Deck | null> {
-    const deck = await this.model.findByPk(id);
+    const deck = await this.model.findByPk(
+      id,
+      {
+        attributes: { exclude: ['userId'] },
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: { exclude: ['email', 'password', 'role'] },
+          },
+          {
+            model: Card,
+            as: 'cards',
+          }
+        ]
+      }
+    );
     return deck;
   }
 
