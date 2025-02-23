@@ -4,6 +4,7 @@ import IDeckRepository from "../types/IDeckRepository";
 import Deck from "../database/models/Deck.model";
 import APIError from "../utils/ApiError";
 import { DeckCreation } from "../types/DeckCreation";
+import DeckWithAssociations from "../types/DeckWithAssociations";
 
 export default class DeckService {
   private repository: IDeckRepository;
@@ -15,7 +16,7 @@ export default class DeckService {
     return new ServiceResponse(200, decks);
   }
 
-  public async getById(id: string): Promise<ServiceResponse<Deck>> {
+  public async getById(id: string): Promise<ServiceResponse<DeckWithAssociations>> {
     const deck = await this.repository.getById(id);
     if (!deck) throw new APIError('Deck not found', 404);
     return new ServiceResponse(200, deck);

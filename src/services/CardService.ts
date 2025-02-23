@@ -28,15 +28,13 @@ export default class CardService {
     const deck = await this.deckRepository.getById(data.deckId);
     if (!deck)
       throw new APIError('Deck not exists', 404);
-    if(deck.dataValues.userId !== userId)
+    if(deck.user!.id !== userId)
       throw new APIError('This user can\'t create a card in this deck', 403);
-    
-    const deckCards = await this.repository.getCardsByDeckId(data.deckId);
-    if (deckCards.length === 32)
+    if (deck.cards!.length === 32)
       throw new APIError('Limit of card per deck reached', 409);
-    if (deckCards.some((card) => card.dataValues.name.toLowerCase() === data.name.toLowerCase()))
+    if (deck.cards!.some((card) => card.dataValues.name.toLowerCase() === data.name.toLowerCase()))
       throw new APIError('There is already a card with that name in this deck', 409)
-    if (deckCards.some((card) => card.dataValues.isTrunfo) && data.isTrunfo)
+    if (deck.cards!.some((card) => card.dataValues.isTrunfo) && data.isTrunfo)
       throw new APIError('Deck already has a Super Trump', 409);
 
     const card = await this.repository.create(data);

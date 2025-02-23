@@ -1,8 +1,8 @@
-import APIError from "../utils/ApiError";
 import Deck from "../database/models/Deck.model";
 import IDeckRepository from "../types/IDeckRepository";
 import User from "../database/models/User.model";
 import Card from "../database/models/Card.model";
+import DeckWithAssociations from "../types/DeckWithAssociations";
 
 export default class DeckRepository implements IDeckRepository {
   private model = Deck;
@@ -19,10 +19,11 @@ export default class DeckRepository implements IDeckRepository {
     return decks;
   }
 
-  public async getById(id: string): Promise<Deck | null> {
+  public async getById(id: string): Promise<DeckWithAssociations | null> {
     const deck = await this.model.findByPk(
       id,
       {
+        attributes: { exclude: ['userId'] },
         include: [
           {
             model: User,

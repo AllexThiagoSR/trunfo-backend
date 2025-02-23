@@ -4,23 +4,28 @@ import ICardRepository from "../types/ICardRepository";
 import { CardCreation } from "../types/CardCreation";
 import Deck from "../database/models/Deck.model";
 import User from "../database/models/User.model";
+import Rarity from "../database/models/Rarity.model";
 
 export default class CardRepository implements ICardRepository {
   private model = Card;
 
   async getAll(): Promise<Card[]> {
     const cards = await this.model.findAll({
-      include: {
-        model: Deck,
-        as: 'deck',
-        include: [
-          {
-            model: User,
-            as: 'user',
-            attributes: { exclude: ['password', 'email', 'role'] }
-          }
-        ]
-      },
+      include: [
+        {
+          model: Deck,
+          as: 'deck',
+          attributes: ['id', 'name', 'created'],
+          include: [
+            {
+              model: User,
+              as: 'user',
+              attributes: { exclude: ['password', 'email', 'role'] }
+            }
+          ]
+        },
+        { model: Rarity, as: 'rarity' }
+      ],
     });
     return cards;
   }
