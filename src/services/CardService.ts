@@ -6,7 +6,6 @@ import { CardCreation } from "../types/CardCreation";
 import APIError from "../utils/ApiError";
 import IDeckRepository from "../types/IDeckRepository";
 import DeckRepository from "../repositories/DeckRepository";
-import User from "../database/models/User.model";
 
 export default class CardService {
   private repository: ICardRepository;
@@ -17,15 +16,18 @@ export default class CardService {
     this.deckRepository = deckRepo;
   }
 
+  async getAll(): Promise<ServiceResponse<Card[]>> {
+    const cards = await this.repository.getAll();
+    return new ServiceResponse(200, cards);
+  }
+
   async create(data: CardCreation, userId: string): Promise<ServiceResponse<Card>> {
     const { attributes: [attr1, attr2, attr3] } = data;
     if (attr1 + attr2 + attr3 > 210) throw new APIError('The total value of the sum of the 3 attributes must be less than or equal to 210', 400);
 
     const deck = await this.deckRepository.getById(data.deckId);
     if (!deck)
-      throw new APIError('Deck not exists', 404)
-    console.log(deck.dataValues.userId, userId);
-    
+      throw new APIError('Deck not exists', 404);
     if(deck.dataValues.userId !== userId)
       throw new APIError('This user can\'t create a card in this deck', 403);
     
@@ -34,7 +36,7 @@ export default class CardService {
       throw new APIError('Limit of card per deck reached', 409);
     if (deckCards.some((card) => card.dataValues.name.toLowerCase() === data.name.toLowerCase()))
       throw new APIError('There is already a card with that name in this deck', 409)
-    if (deckCards.some((card) => card.dataValues.isTrunfo))
+    if (deckCards.some((card) => card.dataValues.isTrunfo) && data.isTrunfo)
       throw new APIError('Deck already has a Super Trump', 409);
 
     const card = await this.repository.create(data);

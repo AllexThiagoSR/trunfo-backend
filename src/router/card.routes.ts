@@ -7,5 +7,6 @@ const cardRouter = Router();
 const controller = new CardController();
 
 cardRouter.post('/', CreateCardMiddleware.validate, adapter((req, res) => controller.create(req, res)));
+cardRouter.get('/', adapter((req, res) => controller.getAll(req, res)))
 
 export default cardRouter;
