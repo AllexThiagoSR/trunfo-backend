@@ -23,7 +23,6 @@ export default class DeckRepository implements IDeckRepository {
     const deck = await this.model.findByPk(
       id,
       {
-        attributes: { exclude: ['userId'] },
         include: [
           {
             model: User,

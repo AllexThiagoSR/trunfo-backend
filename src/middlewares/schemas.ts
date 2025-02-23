@@ -1,12 +1,5 @@
 import Joi from "joi/lib";
 
-const createDeckSchema = Joi.object({
-  name: Joi.string().min(3).required(),
-  attributeOne: Joi.string().min(3),
-  attributeTwo: Joi.string().min(3),
-  attributeThree: Joi.string().min(3),
-});
-
 const updateUserSchema = Joi.object({
   username: Joi.string().min(3).required(),
   email: Joi.string().email().required(),
@@ -19,16 +12,6 @@ const updateDeckSchema = Joi.object({
     .required(),
 });
 
-const createCardSchema = Joi.object({
-  name: Joi.string().min(3).required(),
-  attributes: Joi.array().items(Joi.number()).min(3).max(3)
-    .required(),
-  description: Joi.string().min(7).required(),
-  image: Joi.string(),
-  rarityId: Joi.number().required(),
-  isTrunfo: Joi.boolean().required(),
-  deckId: Joi.number().required(),
-});
 
 const updateCardSchema = Joi.object({
   name: Joi.string().min(3).required(),
@@ -43,7 +26,5 @@ const updateCardSchema = Joi.object({
 export default {
   updateDeckSchema,
   updateUserSchema,
-  createCardSchema,
-  createDeckSchema,
   updateCardSchema,
 };

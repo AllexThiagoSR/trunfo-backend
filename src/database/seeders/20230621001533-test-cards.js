@@ -12,7 +12,7 @@ module.exports = {
         attribute_one: 10,
         attribute_two: 10,
         attribute_three: 10,
-        deck_id: 1
+        deck_id: '3cba3a50-02bf-411e-95a0-2ad4c0f756a5'
       },
       {
         name: 'Test card 2',
@@ -23,7 +23,7 @@ module.exports = {
         attribute_one: 10,
         attribute_two: 10,
         attribute_three: 10,
-        deck_id: 1
+        deck_id: '3cba3a50-02bf-411e-95a0-2ad4c0f756a5'
       },
       {
         name: 'Test card 3',
@@ -34,7 +34,7 @@ module.exports = {
         attribute_one: 10,
         attribute_two: 10,
         attribute_three: 10,
-        deck_id: 1
+        deck_id: '3cba3a50-02bf-411e-95a0-2ad4c0f756a5'
       },
       {
         name: 'Test card 4',
@@ -45,7 +45,7 @@ module.exports = {
         attribute_one: 10,
         attribute_two: 10,
         attribute_three: 10,
-        deck_id: 1
+        deck_id: '3cba3a50-02bf-411e-95a0-2ad4c0f756a5'
       },
       {
         name: 'Test card 5',
@@ -56,7 +56,7 @@ module.exports = {
         attribute_one: 10,
         attribute_two: 10,
         attribute_three: 10,
-        deck_id: 1
+        deck_id: '3cba3a50-02bf-411e-95a0-2ad4c0f756a5'
       },
       {
         name: 'Test card 6',
@@ -67,7 +67,7 @@ module.exports = {
         attribute_one: 10,
         attribute_two: 10,
         attribute_three: 10,
-        deck_id: 1
+        deck_id: '3cba3a50-02bf-411e-95a0-2ad4c0f756a5'
       },
     ], {});
   },
