@@ -31,7 +31,8 @@ export default class CardRepository implements ICardRepository {
   }
 
   async getById(id: string): Promise<Card | null> {
-    throw new APIError('Not implemented', 500);
+    const card = await this.model.findByPk(id);
+    return card;
   }
 
   async create(data: CardCreation): Promise<Card> {
@@ -49,11 +50,11 @@ export default class CardRepository implements ICardRepository {
   }
 
   async deleteById(id: string): Promise<any> {
-    throw new APIError('Not implemented', 500);
+    const deletedRowQuantity = await this.model.destroy({ where: { id } });
+    return deletedRowQuantity;
   }
 
-  async getCardsByDeckId(deckId: string): Promise<Card[]> {
-    const cards = await this.model.findAll({ where: { deckId }});
-    return cards
+  async update(id: string, data: Partial<CardCreation>): Promise<Card> {
+    throw new APIError('Not implemented', 500);
   }
 }

@@ -41,4 +41,12 @@ export default class CardService {
 
     return new ServiceResponse(201, card);
   }
- }
+
+  async delete(id: string): Promise<ServiceResponse<null>> {
+    const card = await this.repository.getById(id);
+    if (!card) throw new APIError('Card not found', 404);
+    const deletedRowQuantity = await this.repository.deleteById(id);
+    if (!deletedRowQuantity) throw new APIError('Internal server error', 500);
+    return new ServiceResponse(204, null);
+  }
+}

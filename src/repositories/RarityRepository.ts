@@ -4,7 +4,7 @@ import IRarityRepository from "../types/IRarityRepository";
 export default class RarityRepository implements IRarityRepository {
   private model = Rarity;
 
-  async getAll(): Promise<Rarity[]> {
+  public async getAll(): Promise<Rarity[]> {
     const rarities = await this.model.findAll();
     return rarities;
   }
