@@ -1,6 +1,6 @@
 export type CardCreation = {
   name: string,
-  attributes: number[],
+  attributes: [attributeOne: number, attributeTwo: number, attributeThree: number],
   description: string,
   image: string,
   rarityId: number,

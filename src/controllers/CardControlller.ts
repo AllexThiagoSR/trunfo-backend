@@ -23,4 +23,10 @@ export default class CardController {
     res.status(response.statusCode).json(response.body);
     return;
   }
+
+  public async update(req: Request, res: Response) {
+    const response = await this.service.update(req.params.id, req.body, res.locals.user.id);
+    res.status(response.statusCode).json(response.body);
+    return;
+  }
 }
