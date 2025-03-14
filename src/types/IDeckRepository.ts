@@ -1,4 +1,5 @@
 import Deck from '../database/models/Deck.model';
+import { DeckUpdation } from './DeckUpdation';
 import DeckWithAssociations from './DeckWithAssociations';
 
 export default interface IDeckRepository {
@@ -11,4 +12,5 @@ export default interface IDeckRepository {
     attributeThree: string,
     userId: string,
   ): Promise<Deck>;
+  update(id: string, data: DeckUpdation): Promise<[affectedCount: number]>;
 }

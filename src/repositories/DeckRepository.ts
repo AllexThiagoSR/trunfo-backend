@@ -3,6 +3,7 @@ import IDeckRepository from "../types/IDeckRepository";
 import User from "../database/models/User.model";
 import Card from "../database/models/Card.model";
 import DeckWithAssociations from "../types/DeckWithAssociations";
+import { DeckUpdation } from "../types/DeckUpdation";
 
 export default class DeckRepository implements IDeckRepository {
   private model = Deck;
@@ -43,5 +44,10 @@ export default class DeckRepository implements IDeckRepository {
   public async create(name: string, attributeOne: string, attributeTwo: string, attributeThree: string, userId: string): Promise<Deck> {
     const deck = await this.model.create({ name, attributeOne, attributeThree, attributeTwo, userId });
     return deck;
+  }
+
+  public async update(id: string, data: DeckUpdation): Promise<[affectedCount: number]> {
+    const updatedDeckAffectedCount = await this.model.update(data, { where: { id } });
+    return updatedDeckAffectedCount;
   }
 }

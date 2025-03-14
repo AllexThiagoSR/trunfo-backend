@@ -10,7 +10,7 @@ import { CardUpdation } from "../types/CardUpdation";
 export default class CardRepository implements ICardRepository {
   private model = Card;
 
-  async getAll(): Promise<Card[]> {
+  public async getAll(): Promise<Card[]> {
     const cards = await this.model.findAll({
       include: [
         {
@@ -31,7 +31,7 @@ export default class CardRepository implements ICardRepository {
     return cards;
   }
 
-  async getById(id: string): Promise<CardWithAssociations | null> {
+  public async getById(id: string): Promise<CardWithAssociations | null> {
     const card = await this.model.findByPk(
       id,
       {
@@ -50,7 +50,7 @@ export default class CardRepository implements ICardRepository {
     return card;
   }
 
-  async create(data: CardCreation): Promise<Card> {
+  public async create(data: CardCreation): Promise<Card> {
     const {
       name,
       attributes: [attributeOne, attributeTwo, attributeThree],
@@ -64,13 +64,13 @@ export default class CardRepository implements ICardRepository {
     return card
   }
 
-  async deleteById(id: string): Promise<number> {
+  public async deleteById(id: string): Promise<number> {
     const deletedRowQuantity = await this.model.destroy({ where: { id } });
     return deletedRowQuantity;
   }
 
-  async update(id: string, data: Partial<Card>): Promise<[affectedCount: number]> {
-    const updatedCard = await this.model.update(data, { where: { id } });
-    return updatedCard;
+  public async update(id: string, data: CardUpdation): Promise<[affectedCount: number]> {
+    const updatedCardAffectedCount = await this.model.update(data, { where: { id } });
+    return updatedCardAffectedCount;
   }
 }
