@@ -44,12 +44,14 @@ export default class DeckService {
     if (!deck)
       throw new APIError('Deck not found', 404);
     if (deck.user?.id !== userId)
-      throw new APIError('This user can\'t update this card.', 403);
+      throw new APIError('This user can\'t update this deck.', 403);
     DeckService.validateUpdationData(data, deck);
     (deck.dataValues as DeckWithAssociations).name = data.name || deck.name;
     (deck.dataValues as DeckWithAssociations).attributeOne = data.attributeOne || deck.attributeOne;
     (deck.dataValues as DeckWithAssociations).attributeTwo = data.attributeTwo || deck.attributeTwo;
     (deck.dataValues as DeckWithAssociations).attributeThree = data.attributeThree || deck.attributeThree;
+    (deck.dataValues as DeckWithAssociations).user = undefined;
+    (deck.dataValues as DeckWithAssociations).cards = undefined;
     await this.repository.update(id, data);
     return new ServiceResponse(200, deck);
   }
