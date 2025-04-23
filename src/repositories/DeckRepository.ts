@@ -50,4 +50,9 @@ export default class DeckRepository implements IDeckRepository {
     const updatedDeckAffectedCount = await this.model.update(data, { where: { id } });
     return updatedDeckAffectedCount;
   }
+
+  public async deleteById(id: string): Promise<number> {
+    const deletedRowQuantity = await this.model.destroy({ where: { id } });
+    return deletedRowQuantity; 
+  }
 }

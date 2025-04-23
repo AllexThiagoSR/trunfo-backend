@@ -11,5 +11,6 @@ deckRouter.get('/', adapter((req, res) => controller.getAll(req, res)));
 deckRouter.get('/:id', adapter((req, res) => controller.getById(req, res)));
 deckRouter.post('/', CreateDeckMiddleware.validate, adapter((req, res) => controller.create(req, res)));
 deckRouter.patch('/:id', UpdateDeckMiddleware.validate, adapter((req, res) => controller.update(req, res)));
+deckRouter.delete('/:id', adapter((req, res) => controller.deleteById(req, res)));
 
 export default deckRouter;

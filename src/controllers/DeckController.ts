@@ -29,4 +29,10 @@ export default class DeckController {
     res.status(response.statusCode).json(response.body);
     return;
   }
+
+  public async deleteById(req: Request, res: Response) {
+    const response = await this.service.delete(req.params.id, res.locals.user.id, res.locals.user.email, req.body.password);
+    res.status(response.statusCode).json(response.body);
+    return;
+  }
 }

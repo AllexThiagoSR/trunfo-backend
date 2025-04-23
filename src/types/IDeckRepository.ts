@@ -13,4 +13,5 @@ export default interface IDeckRepository {
     userId: string,
   ): Promise<Deck>;
   update(id: string, data: DeckUpdation): Promise<[affectedCount: number]>;
+  deleteById(id: string): Promise<number>;
 }

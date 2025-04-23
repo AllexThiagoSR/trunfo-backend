@@ -6,11 +6,18 @@ import APIError from "../utils/ApiError";
 import { DeckCreation } from "../types/DeckCreation";
 import DeckWithAssociations from "../types/DeckWithAssociations";
 import { DeckUpdation } from "../types/DeckUpdation";
+import IUserRepository from "../types/IUserRepository";
+import BcryptUtils from "../utils/Bcrypt";
+import UserRepository from "../repositories/UserRepository";
 
 export default class DeckService {
   private repository: IDeckRepository;
+  private userRepository: IUserRepository;
 
-  constructor(repo: IDeckRepository = new DeckRepository()) { this.repository = repo; }
+  constructor(repo: IDeckRepository = new DeckRepository(), userRepo: IUserRepository = new UserRepository()) {
+    this.repository = repo;
+    this.userRepository = userRepo;
+  }
 
   public async getAll(): Promise<ServiceResponse<Deck[]>> {
     const decks = await this.repository.getAll();
@@ -54,5 +61,18 @@ export default class DeckService {
     (deck.dataValues as DeckWithAssociations).cards = undefined;
     await this.repository.update(id, data);
     return new ServiceResponse(200, deck);
+  }
+
+  public async delete(id: string, userId: string, email: string, password: string): Promise<ServiceResponse<null>> {
+    const deck = await this.repository.getById(id);
+    if (!deck)
+      throw new APIError('Deck not found', 404);
+    if (deck.user?.id !== userId)
+      throw new APIError('This user can\'t delete this deck.', 403);
+    const user = await this.userRepository.getByEmail(email);
+    if (!password || !BcryptUtils.compare(password, user!.password))
+      throw new APIError('Incorrect password', 403);
+    await this.repository.deleteById(id);
+    return new ServiceResponse(204, null);
   }
 }

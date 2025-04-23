@@ -7,8 +7,8 @@ import UpdateCardMiddleware from "../middlewares/UpdateCardMiddleware";
 const cardRouter = Router();
 const controller = new CardController();
 
-cardRouter.post('/', CreateCardMiddleware.validate, adapter((req, res) => controller.create(req, res)));
 cardRouter.get('/', adapter((req, res) => controller.getAll(req, res)));
+cardRouter.post('/', CreateCardMiddleware.validate, adapter((req, res) => controller.create(req, res)));
 cardRouter.delete('/:id', adapter((req, res) => controller.delete(req, res)));
 cardRouter.patch('/:id', UpdateCardMiddleware.validate, adapter((req, res) => controller.update(req, res)));
 
