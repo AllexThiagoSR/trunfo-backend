@@ -47,7 +47,7 @@ export default class UserService {
   }
 
   public async getById(id: string): Promise<ServiceResponse<User>> {
-    const user = await this.repository.getById(id);
+    const user = await this.repository.getById(id, true);
     if (!user) throw new APIError("User not found", 404);
     return new ServiceResponse(200, user);
   }
