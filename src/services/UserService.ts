@@ -6,6 +6,7 @@ import APIError from "../utils/ApiError";
 import BcryptUtils from "../utils/Bcrypt";
 import { SequelizeScopeError } from "sequelize/types";
 import User from "../database/models/User.model";
+import { bool, boolean } from "joi/lib";
 
 export default class UserService {
   private repository: IUserRepository;
@@ -43,5 +44,11 @@ export default class UserService {
     updatedUser.username = username || updatedUser.username;
     updatedUser.image = image || updatedUser.image;
     return new ServiceResponse(200, updatedUser);
+  }
+
+  public async getById(id: string): Promise<ServiceResponse<User>> {
+    const user = await this.repository.getById(id);
+    if (!user) throw new APIError("User not found", 404);
+    return new ServiceResponse(200, user);
   }
 }

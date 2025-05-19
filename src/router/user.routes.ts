@@ -10,5 +10,6 @@ const controller = new UserController();
 userRouter.post('/', CreateUserMiddleware.validate, adapter((req, res) => controller.create(req, res)));
 userRouter.patch('/', ValidateLoginTokenMiddleware.validate, adapter((req, res) => controller.update(req, res)));
 userRouter.post('/login', adapter((req, res) => controller.userLogin(req, res)));
+userRouter.get('/logged', ValidateLoginTokenMiddleware.validate, adapter((req, res) => controller.getLoggedUser(req, res)));
 
 export default userRouter;
